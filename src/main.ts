@@ -17,6 +17,7 @@ const controls = {
   'Load Scene': loadScene, // A function pointer, essentially
   planet: 0,
   featuresScale: 1,
+  seed: 0,
 };
 
 let icosphere: Icosphere;
@@ -43,7 +44,8 @@ function main() {
   gui.add(controls, 'tesselations', 0, 8).step(1);
   gui.add(controls, 'Load Scene');
   gui.add(controls, 'planet', { Endor: 0, Tatooine: 1, Hoth: 2, Dagobah: 3, Mustafar: 4 });
-  gui.add(controls, 'featuresScale', 0.01, 1.5).step(0.01);
+  gui.add(controls, 'featuresScale', 0.1, 1.5).step(0.01);
+  gui.add(controls, 'seed', 0, 50).step(1);
 
   // get canvas and webgl context
   const canvas = <HTMLCanvasElement> document.getElementById('canvas');
@@ -80,6 +82,7 @@ function main() {
     shader.setFrame(frame);
     shader.setPlanet(controls.planet);
     shader.setScale(controls.featuresScale);
+    shader.setSeed(controls.seed);
     let shape: Drawable;
     shape = icosphere;
     renderer.render(camera, shader, [shape]);

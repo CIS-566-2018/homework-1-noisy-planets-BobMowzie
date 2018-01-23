@@ -31,6 +31,7 @@ class ShaderProgram {
   unifFrame: WebGLUniformLocation;
   unifPlanet: WebGLUniformLocation;
   unifScale: WebGLUniformLocation;
+  unifSeed: WebGLUniformLocation;
 
   constructor(shaders: Array<Shader>) {
     this.prog = gl.createProgram();
@@ -52,6 +53,7 @@ class ShaderProgram {
     this.unifFrame      = gl.getUniformLocation(this.prog, "u_Frame");
     this.unifPlanet     = gl.getUniformLocation(this.prog, "u_Planet");
     this.unifScale     = gl.getUniformLocation(this.prog, "u_Scale");
+    this.unifSeed     = gl.getUniformLocation(this.prog, "u_Seed");
     }
 
   use() {
@@ -100,6 +102,13 @@ class ShaderProgram {
     this.use();
     if (this.unifScale !== -1) {
       gl.uniform1f(this.unifScale, scale);
+    }
+  }
+
+  setSeed(seed: number) {
+    this.use();
+    if (this.unifSeed !== -1) {
+      gl.uniform1f(this.unifSeed, seed);
     }
   }
 

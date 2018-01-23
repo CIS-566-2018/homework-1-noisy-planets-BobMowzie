@@ -22,6 +22,7 @@ uniform mat4 u_ViewProj;    // The matrix that defines the camera's transformati
 uniform float u_Frame;
 uniform int u_Planet;
 uniform float u_Scale;
+uniform float u_Seed;
 
 in vec4 vs_Pos;             // The array of vertex positions passed to the shader
 
@@ -52,6 +53,7 @@ const vec3 h = vec3(0.0, 0.8, 0.2);
 
 // Return amp1 random direction in amp1 circle
 vec2 random2( vec2 p ) {
+    p += u_Seed;
     return normalize(2. * fract(sin(vec2(dot(p,vec2(127.1,311.7)),dot(p,vec2(269.5,183.3))))*43758.5453) - 1.);
 }
 
@@ -176,8 +178,8 @@ void main()
         offset = amp1 * (mix(sealevel * (1. - 0.05 * u_Scale), 1. - abs(mountainNoise) - 0.5, 1. - pow(1. - continentNoise, 2. * u_Scale)) + (amp2 * continentNoise) - sealevel) + sealevel + beachNoise * amp3 * (1. - continentNoise) + surfaceNoise * amp4;
         if (offset < sealevel) {
             offset = sealevel;
-            float perlin5 = myPerlinOffset(20. * invScale, u_Frame * 0.002, u_Frame * 0.002, u_Frame * 0.002);
-            fs_Col = mix(vec4(38./255., 120./255., 165./255., 1), vec4(68./255., 188./255., 208./255., 1), perlin5);
+            float perlin5 = myPerlinOffset(20. * invScale, u_Frame * 0.002, u_Frame * 0.002, u_Frame * 0.002) + 0.5;
+            fs_Col = mix(vec4(38./255., 120./255., 165./255., 1), vec4(68./255., 188./255., 208./255., 1), myclamp(perlin5, 0., 1.));
             fs_spec = 1.;
         }
         else {
@@ -237,8 +239,8 @@ void main()
         offset = amp1 * (mix(sealevel * (1. - 0.05 * u_Scale), 1. - abs(mountainNoise) - 0.5, 1. - pow(1. - continentNoise, 2. * u_Scale)) + (amp2 * continentNoise) - sealevel) + sealevel + beachNoise * amp3 * (1. - continentNoise) + surfaceNoise * amp4;
         if (offset < sealevel) {
             offset = sealevel;
-            float perlin5 = myPerlinOffset(20. * invScale, u_Frame * 0.002, u_Frame * 0.002, u_Frame * 0.002);
-            fs_Col = mix(vec4(31./255., 58./255., 40./255., 1.), vec4(51./255., 82./255., 60./255., 1.), perlin5);
+            float perlin5 = myPerlinOffset(20. * invScale, u_Frame * 0.002, u_Frame * 0.002, u_Frame * 0.002) + 0.5;
+            fs_Col = mix(vec4(31./255., 58./255., 40./255., 1.), vec4(51./255., 82./255., 60./255., 1.), myclamp(perlin5, 0., 1.));
             fs_spec = 1.;
         }
         else {
